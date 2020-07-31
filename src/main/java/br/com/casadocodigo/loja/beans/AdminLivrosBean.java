@@ -1,6 +1,6 @@
 package br.com.casadocodigo.loja.beans;
 
-import java.util.ArrayList;
+import java.io.IOException;
 import java.util.List;
 
 import javax.enterprise.context.RequestScoped;
@@ -8,6 +8,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.servlet.http.Part;
 import javax.transaction.Transactional;
 
 import br.com.casadocodigo.loja.daos.AutorDao;
@@ -20,7 +21,6 @@ import br.com.casadocodigo.loja.models.Livro;
 public class AdminLivrosBean {
 
 	private Livro livro = new Livro();
-	private List<Long> autoresId = new ArrayList<Long>();
 
 	@Inject
 	private LivroDao dao;
@@ -30,15 +30,14 @@ public class AdminLivrosBean {
 
 	@Inject
 	private FacesContext context;
+	
+	private Part capaLivro;
 
 	@Transactional
-	public String salvar() {
-		System.out.println("Livro cadastrado: " + livro);
-
-		for (Long autorId : autoresId) {
-			livro.add(new Autor(autorId));
-		}
-
+	public String salvar() throws IOException {
+		
+		capaLivro.write("/casadocodigo/capas/" + capaLivro.getSubmittedFileName());
+		
 		dao.salvar(livro);
 		/**
 		 * Pega o escopo de flash, que percorre desde o contexto onde surgiu a
@@ -62,12 +61,14 @@ public class AdminLivrosBean {
 		this.livro = livro;
 	}
 
-	public List<Long> getAutoresId() {
-		return autoresId;
+	public Part getCapaLivro() {
+		return capaLivro;
 	}
 
-	public void setAutoresId(List<Long> autoresId) {
-		this.autoresId = autoresId;
+	public void setCapaLivro(Part capaLivro) {
+		this.capaLivro = capaLivro;
 	}
+	
+	
 
 }
