@@ -13,6 +13,7 @@ import javax.transaction.Transactional;
 
 import br.com.casadocodigo.loja.daos.AutorDao;
 import br.com.casadocodigo.loja.daos.LivroDao;
+import br.com.casadocodigo.loja.infra.FileSaver;
 import br.com.casadocodigo.loja.models.Autor;
 import br.com.casadocodigo.loja.models.Livro;
 
@@ -31,13 +32,15 @@ public class AdminLivrosBean {
 	@Inject
 	private FacesContext context;
 	
+	@Inject
+	private FileSaver fileSaver;
+	
 	private Part capaLivro;
 
 	@Transactional
 	public String salvar() throws IOException {
 		
-		capaLivro.write("/casadocodigo/capas/" + capaLivro.getSubmittedFileName());
-		
+		livro.setCapaPath(fileSaver.write(capaLivro, "livros"));
 		dao.salvar(livro);
 		/**
 		 * Pega o escopo de flash, que percorre desde o contexto onde surgiu a
