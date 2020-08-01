@@ -30,6 +30,7 @@ public class FileServlet extends HttpServlet {
 		res.setHeader("Content-Length", String.valueOf(Files.size(arquivo)));
 		res.setHeader("Content-Disposition", "filename=\"" + arquivo.getFileName().toString() + "\"");
 		
+		
 		FileSaver.transfer(arquivo, res.getOutputStream());
 	}
 }
