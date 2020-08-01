@@ -31,29 +31,32 @@ public class Livro {
 	@NotBlank
 	private String titulo;
 
+	@NotBlank
+	private String capaPath;
+
 	@Lob
-	@Length(min=10)
+	@Length(min = 10)
 	@NotBlank
 	private String descricao;
-	
+
 	@DecimalMin("20")
 	private BigDecimal preco;
-	
+
 	@Min(50)
 	private Integer numeroPaginas;
-	
+
 	@Temporal(TemporalType.DATE)
 	private Calendar dataPublicacao;
 
 	@ManyToMany
-	@Size(min=1)
+	@Size(min = 1)
 	@NotNull
 	private List<Autor> autores = new ArrayList<>();
 
 	public void add(Autor autor) {
 		autores.add(autor);
 	}
-	
+
 	public List<Autor> getAutores() {
 		return autores;
 	}
@@ -93,13 +96,21 @@ public class Livro {
 	public void setNumeroPaginas(Integer numeroPaginas) {
 		this.numeroPaginas = numeroPaginas;
 	}
-	
+
 	public Calendar getDataPublicacao() {
 		return dataPublicacao;
 	}
 
 	public void setDataPublicacao(Calendar dataPublicacao) {
 		this.dataPublicacao = dataPublicacao;
+	}
+
+	public String getCapaPath() {
+		return capaPath;
+	}
+
+	public void setCapaPath(String capaLivro) {
+		this.capaPath = capaLivro;
 	}
 
 	@Override
